@@ -1,0 +1,56 @@
+{
+    "name": "QuaggaJs",
+    "version": "1.0.0",
+    "description": "A widget that allows reading barcodes using the quagga.js libary.no",
+    "thingworxServer": "http://localhost:8016",
+    "thingworxUser": "Administrator",
+    "thingworxPassword": "trUf6yuz2?_Gub",
+    "author": "Thingworx RoIcenter",
+    "minimumThingWorxVersion": "6.0.0",
+    "homepage": "http://roicentersvn/placatus/QuaggaJsWidget",
+    "autoUpdate": {
+        "giteaURL": "http://roicentersvn/api/v1/repos/placatus/QuaggaJsWidget/releases/latest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "http://roicentersvn.ptcnet.ptc.com/placatus/QuaggaJsWidget.git"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "webpack --mode production",
+        "watch": "webpack --watch --mode development",
+        "server": "webpack-dev-server --open",
+        "upload": "webpack --mode development --env.upload",
+        "init": "webpack --env.init"
+    },
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/core": "^7.0.0-beta.49",
+        "@babel/preset-env": "^7.0.0-beta.49",
+        "@types/jquery": "^3.3.2",
+        "@types/node": "^8.10.18",
+        "@types/webpack-env": "^1.13.6",
+        "awesome-typescript-loader": "^3.5.0",
+        "babel-loader": "^8.0.0-beta.3",
+        "clean-webpack-plugin": "^0.1.19",
+        "copy-webpack-plugin": "^4.5.1",
+        "css-loader": "^0.28.11",
+        "dtsbundler-webpack-plugin": "github:dmitry-mashkov/dtsbundler-webpack-plugin#8803fb6309a6451ac0fd747a25f385b8a539f833",
+        "extract-text-webpack-plugin": "^3.0.2",
+        "file-loader": "^1.1.11",
+        "request": "^2.87.0",
+        "source-map-loader": "^0.2.3",
+        "style-loader": "^0.20.3",
+        "ts-loader": "^4.3.1",
+        "typescript": "^2.9.1",
+        "url-loader": "^1.0.1",
+        "webpack": "^4.11.1",
+        "webpack-cli": "^2.1.5",
+        "webpack-dev-server": "^3.1.4",
+        "xml2js": "^0.4.19",
+        "zip-webpack-plugin": "^3.0.0"
+    },
+    "dependencies": {
+        "quagga": "^0.12.1"
+    }
+}

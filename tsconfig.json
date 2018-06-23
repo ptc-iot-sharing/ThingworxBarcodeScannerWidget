@@ -3,7 +3,8 @@
         "outDir": "./dist/",
         "sourceMap": true,
         "noImplicitAny": false,
-        "module": "esnext",
+        "moduleResolution": "node",
+        "module": "es6",
         "target": "es5",
         "experimentalDecorators": true,
         "lib": [

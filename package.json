@@ -4,7 +4,7 @@
     "description": "A widget that allows reading barcodes using the quagga.js libary.no",
     "thingworxServer": "http://localhost:8016",
     "thingworxUser": "Administrator",
-    "thingworxPassword": "trUf6yuz2?_Gub",
+    "thingworxPassword": "admin",
     "author": "Thingworx RoIcenter",
     "minimumThingWorxVersion": "6.0.0",
     "homepage": "http://roicentersvn/placatus/QuaggaJsWidget",

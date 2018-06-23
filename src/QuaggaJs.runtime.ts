@@ -7,6 +7,7 @@ class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
     serviceInvoked(name: string): void {
         throw new Error("Method not implemented.");
     }
+
     @TWProperty("Barcode-Type")
     set barcodeType(value: string) {
         // TODO: needs to be 
@@ -29,14 +30,14 @@ class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
 
     afterRender() {
         let thisWidget = this;
-        this.quaggaInstance = new QuaggaInstance(".overlay__content", this.createConfigFromProperties());
+        this.quaggaInstance = new QuaggaInstance(".quagga_overlay__content", this.createConfigFromProperties());
         this.quaggaInstance.addDetectionListener(this);
         thisWidget.jqElement.find(".quagga-file-capture").change((e: any) => {
             if (e.target.files && e.target.files.length) {
                 this.quaggaInstance.decodeSingleImage(URL.createObjectURL(e.target.files[0]));
             }
         });
-        this.jqElement.find("button").on("click", () => {
+        this.jqElement.find(".quagga-icon-barcode").on("click", () => {
             if (thisWidget.getProperty("Mode") == "Live") {
                 thisWidget.createLiveStreamOverlay();
             } else if (thisWidget.getProperty("Mode") == "Image") {
@@ -56,12 +57,19 @@ class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
                 }
             });
             closeButton.appendChild(document.createTextNode('X'));
-            content.className = 'overlay__content';
-            closeButton.className = 'overlay__close';
+            content.className = 'quagga_overlay__content';
+            closeButton.className = 'quagga_overlay__close';
+            let torchButton = document.createElement('div');
+            $(torchButton).on('click', () => {
+                this.quaggaInstance.setTorch(true);
+            });
+            torchButton.appendChild(document.createTextNode('⚡'));
+            torchButton.className = 'quagga_overlay__torch';
             this.overlay = document.createElement('div');
-            this.overlay.className = 'overlay';
+            this.overlay.className = 'quagga_overlay';
             this.overlay.appendChild(content);
             content.appendChild(closeButton);
+            content.appendChild(torchButton);
 
             document.body.appendChild(this.overlay);
         }

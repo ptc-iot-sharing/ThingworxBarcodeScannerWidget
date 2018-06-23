@@ -1,5 +1,6 @@
 import * as Quagga from 'quagga';
 import { QuaggaJSConfigObject } from '../../typings/quagga';
+import 'webrtc-adapter';
 export enum InputStreams {
     ImageStream = "ImageStream",
     VideoStream = "VideoStream",
@@ -137,7 +138,7 @@ export class QuaggaInstance {
         singleConfig.locate = true;
         singleConfig.inputStream.type = undefined;
         Quagga.decodeSingle(singleConfig, (result) => {
-            if(result.codeResult) {
+            if (result.codeResult) {
                 for (const listener of this.detectionListeners) {
                     listener.codeDetected(result.codeResult.code, result.codeResult.format);
                 }
@@ -172,7 +173,6 @@ export class QuaggaInstance {
         });
 
         Quagga.onProcessed((result) => {
-            debugger;
             if (this.drawDetectionIndicator) {
                 var drawingCtx = Quagga.canvas.ctx.overlay,
                     drawingCanvas = Quagga.canvas.dom.overlay;
@@ -202,6 +202,29 @@ export class QuaggaInstance {
     stopLiveDetection() {
         Quagga.stop();
     }
+
+    /**
+     * Sets the torch to the specifed value. Will only work on compatible devices
+     * @param value New value for the torch
+     */
+    setTorch(value: boolean) {
+        var track = Quagga.CameraAccess.getActiveTrack();
+        if (track && typeof track.getCapabilities === 'function') {
+            return track.applyConstraints({ advanced: [{ torch: !!value }] });
+        }
+    }
+
+    /**
+     * Sets the zoom to the specifed value. Will only work on compatible devices
+     * @param value New value for the zoom
+     */
+    setZoom(value: number) {
+        var track = Quagga.CameraAccess.getActiveTrack();
+        if (track && typeof track.getCapabilities === 'function') {
+            return track.applyConstraints({ advanced: [{ zoom: value }] });
+        }
+    }
+
 
     /**
      * Adds a new listener that gets called when a new code is detected by quagga 

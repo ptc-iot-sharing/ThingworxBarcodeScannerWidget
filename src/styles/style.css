@@ -21,7 +21,7 @@
 }
 
 
-.overlay {
+.quagga_overlay {
     overflow: hidden;
     position: fixed;
     top: 0;
@@ -33,19 +33,36 @@
     z-index: 100000;
 }
 
-.overlay__content {
+.quagga_overlay__content {
     top: 50%;
     position: absolute;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90%;
     max-height: 90%;
-    max-width: 800px;
+    max-width: 90%;
 }
 
-.overlay__close {
+.quagga_overlay__close {
     position: absolute;
     right: 0;
+    padding: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    background-color: white;
+    cursor: pointer;
+    border: 3px solid black;
+    font-size: 1.5rem;
+    margin: -1rem;
+    border-radius: 2rem;
+    z-index: 100;
+    box-sizing: content-box;
+}
+
+.quagga_overlay__torch {
+    position: absolute;
+    left: 0;
     padding: 0.5rem;
     width: 2rem;
     height: 2rem;

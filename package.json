@@ -51,6 +51,7 @@
         "zip-webpack-plugin": "^3.0.0"
     },
     "dependencies": {
-        "quagga": "^0.12.1"
+        "quagga": "^0.12.1",
+        "webrtc-adapter": "^6.2.1"
     }
 }

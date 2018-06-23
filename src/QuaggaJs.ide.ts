@@ -111,7 +111,7 @@ class QuaggaJsWidget extends TWComposerWidget {
                     'description': 'Enable or disable drawing of additional lines showing detection results',
                     'baseType': 'BOOLEAN',
                     'defaultValue': true                    
-                }, 
+                }
             }
         };
     };

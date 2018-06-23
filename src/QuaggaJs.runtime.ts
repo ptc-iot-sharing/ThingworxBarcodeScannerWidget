@@ -108,6 +108,10 @@ class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
         this.setProperty("Code", code);
         this.jqElement.find(".quagga-barcode").val(code);
         this.jqElement.triggerHandler("CodeDetected");
+        if (this.overlay) {
+            this.quaggaInstance.stopLiveDetection();
+            this.overlay.style.display = "none";
+        }
     }
 
     codeNotDetected() {

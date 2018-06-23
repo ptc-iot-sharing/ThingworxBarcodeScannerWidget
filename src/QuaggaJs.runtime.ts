@@ -61,9 +61,15 @@ class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
             closeButton.className = 'quagga_overlay__close';
             let torchButton = document.createElement('div');
             $(torchButton).on('click', () => {
-                this.quaggaInstance.setTorch(true);
+                if (torchButton.style.color == 'yellow') {
+                    this.quaggaInstance.setTorch(false);
+                    torchButton.style.color = 'black';
+                } else {
+                    this.quaggaInstance.setTorch(true);
+                    torchButton.style.color = 'yellow';
+                }
             });
-            torchButton.appendChild(document.createTextNode('⚡'));
+            torchButton.appendChild(document.createTextNode('T'));
             torchButton.className = 'quagga_overlay__torch';
             this.overlay = document.createElement('div');
             this.overlay.className = 'quagga_overlay';

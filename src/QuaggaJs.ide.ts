@@ -37,6 +37,7 @@ class QuaggaJsWidget extends TWComposerWidget {
                 'Mode': {
                     'description': 'Input mode to use: live or image input',
                     'baseType': 'STRING',
+                    'defaultValue': 'Live',
                     'selectOptions': [
                         { "text": "Live Video", "value": "Live" },
                         { "text": "File Input", "value": "Image" },
@@ -125,6 +126,10 @@ class QuaggaJsWidget extends TWComposerWidget {
             'CodeDetected': {
                 'warnIfNotBound': true,
                 'description': 'Fired when a barcode is detected. The code variable is updated with the correct data.'
+            },
+            'CodeNotDetected': {
+                'warnIfNotBound': true,
+                'description': 'Fired when detecting a single image, but no code is found.'
             }
         };
     }

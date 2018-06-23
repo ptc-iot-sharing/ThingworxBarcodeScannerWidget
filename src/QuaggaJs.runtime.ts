@@ -9,7 +9,7 @@ class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
     }
     @TWProperty("Barcode-Type")
     set barcodeType(value: string) {
-        // TODO: needs to be done
+        // TODO: needs to be 
     };
 
     // the quagga interface to use
@@ -23,14 +23,38 @@ class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
         return `<div class="widget-content quagga-input-field">
                     <input class="quagga-barcode" type="text">
                     <button type="button" class="quagga-icon-barcode">&nbsp;</button>
+                    <input type="file" class="quagga-file-capture" capture="">
                 </div>`;
     };
 
-    showOverlay(cancelCb) {
-        if (!this.overlay) {
-            let content = document.createElement('div'),
-                closeButton = document.createElement('div');
+    afterRender() {
+        let thisWidget = this;
+        this.quaggaInstance = new QuaggaInstance(".overlay__content", this.createConfigFromProperties());
+        this.quaggaInstance.addDetectionListener(this);
+        thisWidget.jqElement.find(".quagga-file-capture").change((e: any) => {
+            if (e.target.files && e.target.files.length) {
+                this.quaggaInstance.decodeSingleImage(URL.createObjectURL(e.target.files[0]));
+            }
+        });
+        this.jqElement.find("button").on("click", () => {
+            if (thisWidget.getProperty("Mode") == "Live") {
+                thisWidget.createLiveStreamOverlay();
+            } else if (thisWidget.getProperty("Mode") == "Image") {
+                thisWidget.jqElement.find(".quagga-file-capture").click();
+            }
+        });
+    }
 
+    createLiveStreamOverlay() {
+        if (!this.overlay) {
+            let content = document.createElement('div');
+            let closeButton = document.createElement('div');
+            $(closeButton).on('click', () => {
+                this.quaggaInstance.stopLiveDetection();
+                if (this.overlay) {
+                    this.overlay.style.display = "none";
+                }
+            });
             closeButton.appendChild(document.createTextNode('X'));
             content.className = 'overlay__content';
             closeButton.className = 'overlay__close';
@@ -38,45 +62,12 @@ class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
             this.overlay.className = 'overlay';
             this.overlay.appendChild(content);
             content.appendChild(closeButton);
-            closeButton.addEventListener('click', function closeClick() {
-                closeButton.removeEventListener('click', closeClick);
-                cancelCb();
-            });
+
             document.body.appendChild(this.overlay);
-        } else {
-            let closeButton = document.querySelector('.overlay__close');
-            closeButton.addEventListener('click', function closeClick() {
-                closeButton.removeEventListener('click', closeClick);
-                cancelCb();
-            });
         }
+
+        this.quaggaInstance.startLiveDetection();
         this.overlay.style.display = "block";
-    }
-
-    hideOverlay() {
-        if (this.overlay) {
-            this.overlay.style.display = "none";
-        }
-    }
-
-    afterRender() {
-        let thisWidget = this;
-        let button = this.jqElement.find("button");
-        button.on("click", function onClick(e) {
-            e.preventDefault();
-            button.off("click", onClick);
-            thisWidget.activateLiveScanner();
-        });
-    }
-
-    activateLiveScanner() {
-        this.showOverlay(()=> {
-            this.quaggaInstance.stopDetection();
-            this.hideOverlay();
-        });
-        this.quaggaInstance = new QuaggaInstance(".overlay__content", this.createConfigFromProperties());
-        this.quaggaInstance.addDetectionListener(this);
-
     }
 
     createConfigFromProperties(): QuaggaReaderOptions {
@@ -101,7 +92,13 @@ class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
 
     codeDetected(code, type) {
         this.setProperty("Code", code);
-        this.jqElement.find("input").val(code);
+        this.jqElement.find(".quagga-barcode").val(code);
         this.jqElement.triggerHandler("CodeDetected");
+    }
+
+    codeNotDetected() {
+        this.setProperty("Code", "NOT_FOUND");
+        this.jqElement.find(".quagga-barcode").val("NOT_FOUND");
+        this.jqElement.triggerHandler("CodeNotDetected");
     }
 }

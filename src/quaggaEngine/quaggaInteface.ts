@@ -1,4 +1,5 @@
 import * as Quagga from 'quagga';
+import { QuaggaJSConfigObject } from '../../typings/quagga';
 export enum InputStreams {
     ImageStream = "ImageStream",
     VideoStream = "VideoStream",
@@ -85,11 +86,13 @@ export interface QuaggaReaderOptions {
 
 export interface DetectionListener {
     codeDetected(code: string, type: string): void;
+    codeNotDetected(): void;
 }
 
 export class QuaggaInstance {
     container: string;
-    config: QuaggaReaderOptions;
+    config: QuaggaJSConfigObject;
+    drawDetectionIndicator: boolean;
 
     /**
      * Listeners for detection
@@ -105,9 +108,7 @@ export class QuaggaInstance {
      */
     constructor(container: string, config: QuaggaReaderOptions) {
         this.container = container;
-        this.config = config;
-        // initialize quagga
-        Quagga.init({
+        this.config = {
             inputStream: {
                 type: config.inputStream,
                 target: container,
@@ -126,12 +127,37 @@ export class QuaggaInstance {
                 halfSample: config.halfSample,
                 patchSize: config.patchSize
             }
-        }, function (err) {
+        };
+        this.drawDetectionIndicator = config.drawDetectionIndicator;
+    }
+
+    decodeSingleImage(image) {
+        let singleConfig = Object.assign({}, this.config);
+        singleConfig.src = image;
+        singleConfig.locate = true;
+        singleConfig.inputStream.type = undefined;
+        Quagga.decodeSingle(singleConfig, (result) => {
+            if(result.codeResult) {
+                for (const listener of this.detectionListeners) {
+                    listener.codeDetected(result.codeResult.code, result.codeResult.format);
+                }
+            } else {
+                for (const listener of this.detectionListeners) {
+                    listener.codeNotDetected();
+                }
+            }
+        });
+    }
+
+    startLiveDetection() {
+        // initialize quagga
+        Quagga.init(this.config, function (err) {
             if (err) {
                 console.log("Quagga initialization error", err);
                 return
             }
             console.log("Quagga initialization finished. Ready to start");
+            Quagga.start();
         });
         // add the detection listener that forwards the event to the registered listeners
         Quagga.onDetected((result) => {
@@ -146,7 +172,8 @@ export class QuaggaInstance {
         });
 
         Quagga.onProcessed((result) => {
-            if (this.config.drawDetectionIndicator) {
+            debugger;
+            if (this.drawDetectionIndicator) {
                 var drawingCtx = Quagga.canvas.ctx.overlay,
                     drawingCanvas = Quagga.canvas.dom.overlay;
 
@@ -172,11 +199,7 @@ export class QuaggaInstance {
         });
     }
 
-    startDetection() {
-        Quagga.start();
-    }
-
-    stopDetection() {
+    stopLiveDetection() {
         Quagga.stop();
     }
 

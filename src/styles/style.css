@@ -88,3 +88,7 @@ canvas.drawing, canvas.drawingBuffer {
     left: 0;
     top: 0;
 }
+
+.quagga-file-capture {
+    display: none;
+}

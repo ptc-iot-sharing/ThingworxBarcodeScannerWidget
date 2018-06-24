@@ -7,13 +7,13 @@
     "thingworxPassword": "admin",
     "author": "Thingworx RoIcenter",
     "minimumThingWorxVersion": "6.0.0",
-    "homepage": "http://roicentersvn/placatus/QuaggaJsWidget",
+    "homepage": "http://roicentersvn/placatus/quaggaJsBarcodeScannerWidget",
     "autoUpdate": {
-        "giteaURL": "http://roicentersvn/api/v1/repos/placatus/QuaggaJsWidget/releases/latest"
+        "giteaURL": "http://roicentersvn/api/v1/repos/placatus/quaggaJsBarcodeScannerWidget/releases/latest"
     },
     "repository": {
         "type": "git",
-        "url": "http://roicentersvn.ptcnet.ptc.com/placatus/QuaggaJsWidget.git"
+        "url": "http://roicentersvn.ptcnet.ptc.com/placatus/quaggaJsBarcodeScannerWidget.git"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",

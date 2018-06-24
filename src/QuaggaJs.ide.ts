@@ -29,7 +29,7 @@ class QuaggaJsWidget extends TWComposerWidget {
                     'isBindingTarget': false
                 },
                 'Code': {
-                    'description': 'The code detected by the scanner, or the manual input',
+                    'description': 'The code automatically detected by the scanner',
                     'baseType': 'STRING',
                     'isBindingTarget': false,
                     'isBindingSource': true
@@ -64,7 +64,7 @@ class QuaggaJsWidget extends TWComposerWidget {
                     ]
                 },
                 'Resolution': {
-                    'description': 'Resolution of the camera to use',
+                    'description': 'Camera resolution to use. Depends on the target device. Applies to Live Video ONLY.',
                     'baseType': 'STRING',
                     'defaultValue': 'Re640x480',
                     'selectOptions': [
@@ -77,7 +77,7 @@ class QuaggaJsWidget extends TWComposerWidget {
                     ]
                 }, 
                 'Patch-Size': {
-                    'description': 'Patch size for detecting the barcode',
+                    'description': 'Patch size for detecting the barcode (how big is the barcode compared with the entire image)',
                     'baseType': 'STRING',
                     'defaultValue': 'Medium',
                     'selectOptions': [
@@ -89,12 +89,12 @@ class QuaggaJsWidget extends TWComposerWidget {
                     ]
                 }, 
                 'Frequency': {
-                    'description': 'Detection frequency (numbe rof scanes per second)',
+                    'description': 'Detection frequency (number of scans per second). Applies to Live Video ONLY.',
                     'baseType': 'INTEGER',
                     'defaultValue': 60
                 },
                 'CameraFacingMode': {
-                    'description': 'Specify what camera we want to use',
+                    'description': 'Specify camera to be used for the Live Video. Applies to Live Video ONLY. ',
                     'baseType': 'STRING',
                     'defaultValue': 'Environment',
                     'selectOptions': [
@@ -108,7 +108,7 @@ class QuaggaJsWidget extends TWComposerWidget {
                     'defaultValue': true                    
                 }, 
                 'DrawDetectionIndicator': {
-                    'description': 'Enable or disable drawing of additional lines showing detection results',
+                    'description': 'Enable or disable drawing of additional lines showing detection results. Applies to Live Video ONLY.',
                     'baseType': 'BOOLEAN',
                     'defaultValue': true                    
                 }

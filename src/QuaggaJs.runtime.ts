@@ -30,6 +30,9 @@ class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
 
     afterRender() {
         let thisWidget = this;
+        this.jqElement.find(".quagga-barcode").on('input', (e) => {
+            this.setProperty("Code", $(e.target).val());
+        });
         this.quaggaInstance = new QuaggaInstance(".quagga_overlay__content", this.createConfigFromProperties());
         this.quaggaInstance.addDetectionListener(this);
         thisWidget.jqElement.find(".quagga-file-capture").change((e: any) => {
@@ -61,12 +64,12 @@ class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
             closeButton.className = 'quagga_overlay__close';
             let torchButton = document.createElement('div');
             $(torchButton).on('click', () => {
-                if (torchButton.style.color == 'yellow') {
+                if (torchButton.style.borderColor == 'yellow') {
                     this.quaggaInstance.setTorch(false);
-                    torchButton.style.color = 'black';
+                    torchButton.style.borderColor = 'black';
                 } else {
                     this.quaggaInstance.setTorch(true);
-                    torchButton.style.color = 'yellow';
+                    torchButton.style.borderColor = 'yellow';
                 }
             });
             torchButton.appendChild(document.createTextNode('T'));
@@ -79,7 +82,7 @@ class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
 
             document.body.appendChild(this.overlay);
         }
-
+        $(this.overlay).find(".quagga_overlay__torch")[0].style.borderColor = 'black';
         this.quaggaInstance.startLiveDetection();
         this.overlay.style.display = "block";
     }
@@ -102,6 +105,12 @@ class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
 
     beforeDestroy?(): void {
         // resetting current widget
+        if (this.quaggaInstance) {
+            this.quaggaInstance.stopLiveDetection();
+        }
+        if (this.overlay) {
+            this.overlay.remove()
+        }
     }
 
     codeDetected(code, type) {

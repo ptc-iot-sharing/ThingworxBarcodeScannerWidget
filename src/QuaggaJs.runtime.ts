@@ -8,6 +8,15 @@ export class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener
         throw new Error("Method not implemented.");
     }
 
+    @TWService("StartDetection")
+    startDetection() {
+        if (this.getProperty("Mode") == "Live") {
+            this.createLiveStreamOverlay();
+        } else if (this.getProperty("Mode") == "Image") {
+            this.jqElement.find(".quagga-file-capture").click();
+        }
+    }
+
     @TWProperty("Barcode-Type")
     set barcodeType(value: string) {
         if (value) {

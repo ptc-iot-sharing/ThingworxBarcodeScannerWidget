@@ -75,7 +75,7 @@ class QuaggaJsWidget extends TWComposerWidget {
                         {"text": "1600px", "value": "Re1600x960"},
                         {"text": "1920px", "value": "Re1920x1080"},
                     ]
-                }, 
+                },
                 'Patch-Size': {
                     'description': 'Patch size for detecting the barcode (how big is the barcode compared with the entire image)',
                     'baseType': 'STRING',
@@ -87,7 +87,7 @@ class QuaggaJsWidget extends TWComposerWidget {
                         {"text": "large", "value": "Large"},
                         {"text": "x-large", "value": "X_large"},
                     ]
-                }, 
+                },
                 'Frequency': {
                     'description': 'Detection frequency (number of scans per second). Applies to Live Video ONLY.',
                     'baseType': 'INTEGER',
@@ -101,16 +101,16 @@ class QuaggaJsWidget extends TWComposerWidget {
                         {"text": "Back-facing", "value": "Environment"},
                         {"text": "Front-facing", "value": "User"},
                     ]
-                }, 
+                },
                 'HalfSample': {
                     'description': 'Work on a half sample (half width, half height)',
                     'baseType': 'BOOLEAN',
-                    'defaultValue': true                    
-                }, 
+                    'defaultValue': true
+                },
                 'DrawDetectionIndicator': {
                     'description': 'Enable or disable drawing of additional lines showing detection results. Applies to Live Video ONLY.',
                     'baseType': 'BOOLEAN',
-                    'defaultValue': true                    
+                    'defaultValue': true
                 }
             }
         };
@@ -118,6 +118,10 @@ class QuaggaJsWidget extends TWComposerWidget {
 
     widgetServices(): Dictionary<TWWidgetService> {
         return {
+            StartDetection : {
+                description: "Starts a new detection",
+                warnIfNotBoundAsTarget: false
+            }
         };
     };
 

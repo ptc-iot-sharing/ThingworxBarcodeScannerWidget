@@ -94,6 +94,7 @@ export class QuaggaInstance {
     container: string;
     config: QuaggaJSConfigObject;
     drawDetectionIndicator: boolean;
+    currentlyDetecting: boolean;
 
     /**
      * Listeners for detection
@@ -103,7 +104,7 @@ export class QuaggaInstance {
     private lastResult: string;
 
     /**
-     * 
+     * Creates a new quagga instance for decoding
      * @param container string selector where to put the input or the canvas
      * @param config quagga configuration object
      */
@@ -130,6 +131,7 @@ export class QuaggaInstance {
             }
         };
         this.drawDetectionIndicator = config.drawDetectionIndicator;
+        this.currentlyDetecting = false;
     }
 
     decodeSingleImage(image) {
@@ -151,6 +153,7 @@ export class QuaggaInstance {
     }
 
     startLiveDetection() {
+        this.currentlyDetecting = true;
         // initialize quagga
         Quagga.init(this.config, function (err) {
             if (err) {
@@ -200,7 +203,10 @@ export class QuaggaInstance {
     }
 
     stopLiveDetection() {
-        Quagga.stop();
+        if(this.currentlyDetecting) {
+            Quagga.stop();
+            this.currentlyDetecting = false;
+        }
     }
 
     /**
@@ -227,7 +233,7 @@ export class QuaggaInstance {
 
 
     /**
-     * Adds a new listener that gets called when a new code is detected by quagga 
+     * Adds a new listener that gets called when a new code is detected by quagga
      * @param listener Listener that gets notified whenever a code is detected
      */
     addDetectionListener(listener: DetectionListener) {

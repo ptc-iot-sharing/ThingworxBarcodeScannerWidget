@@ -3,20 +3,29 @@ import { ThingworxRuntimeWidget, TWService, TWProperty } from './support/widgetR
 import { QuaggaInstance, QuaggaReaderOptions, DetectionListener, CameraFacingMode, DecoderReaders, PatchSize, InputStreams, Resolution } from './quaggaEngine/quaggaInteface';
 
 @ThingworxRuntimeWidget
-class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
+export class QuaggaJsWidget extends TWRuntimeWidget implements DetectionListener {
     serviceInvoked(name: string): void {
         throw new Error("Method not implemented.");
     }
 
     @TWProperty("Barcode-Type")
     set barcodeType(value: string) {
-        // TODO: needs to be 
+        if (value) {
+            if (!DecoderReaders[value]) {
+                let validReaders = Object.keys(DecoderReaders).map(function (k) { return k }).join(", ");
+                console.error(`Quagga reader ${value} does not exist. Valid readers are ${validReaders}`);
+                throw `Quagga reader ${value} does not exist. Valid readers are ${validReaders}`;
+            }
+            this.quaggaInstance.stopLiveDetection();
+            this.quaggaInstance = new QuaggaInstance(".quagga_overlay__content", this.createConfigFromProperties());
+            this.quaggaInstance.addDetectionListener(this);
+        }
     };
 
     // the quagga interface to use
     public quaggaInstance: QuaggaInstance;
 
-    // the overlay 
+    // the overlay
     private overlay: HTMLElement;
 
     renderHtml(): string {

@@ -6,8 +6,8 @@ QuaggaJS is a barcode-scanner entirely written in JavaScript supporting real- ti
 
 ## How to use it
 
-By default, this is a non-reposive widget, with a text input that can be customized via CSS and a button.
-The widgets offers two functioning modes, driven by the `Mode` widget property. This modes dictate what happens when clicking on the button.
+By default, this is a non-reposive widget, with a text input that can be customized via CSS and a button. The wodget can also be completely hidden, and the `StartDetection` service can be used to start the detection based on external events.
+The widgets offers two functioning modes, driven by the `Mode` widget property. This modes dictate what happens when clicking on the button, or when triggering the `StartDetection` service.
 
 * Live video: a popup is automatically opened and the device camera is used to directly scan for barcodes. The camera input also includes indicators of detected codes and upon succesful detection, the popup is closed, and the input is updated to the barcode detected. The popup also offers controls for the flashlight of the device (if available).
 * File input: a file dialog opens allowing the user to select a photo. Depending on the used device, this can use the camera app to take a new photo.

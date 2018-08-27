@@ -1,6 +1,6 @@
 {
     "name": "QuaggaJs",
-    "version": "1.1.0",
+    "version": "1.1.5",
     "description": "A widget that allows reading barcodes using the quagga.js libary.no",
     "thingworxServer": "http://localhost:8016",
     "thingworxUser": "Administrator",

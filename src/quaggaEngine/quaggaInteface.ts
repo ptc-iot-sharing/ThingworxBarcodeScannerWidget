@@ -101,7 +101,7 @@ export class QuaggaInstance {
      */
     detectionListeners: DetectionListener[] = [];
 
-    private lastResult: string;
+    private lastResult: { code: string, timestamp: number };
 
     /**
      * Creates a new quagga instance for decoding
@@ -110,6 +110,10 @@ export class QuaggaInstance {
      */
     constructor(container: string, config: QuaggaReaderOptions) {
         this.container = container;
+        this.lastResult = {
+            code: undefined,
+            timestamp: 0
+        };
         this.config = {
             inputStream: {
                 type: config.inputStream,
@@ -167,8 +171,11 @@ export class QuaggaInstance {
         Quagga.onDetected((result) => {
             var code = result.codeResult.code;
 
-            if (this.lastResult !== code) {
-                this.lastResult = code;
+            if (this.lastResult.code !== code || Date.now() - this.lastResult.timestamp > 5000) {
+                this.lastResult = {
+                    code: code,
+                    timestamp: Date.now()
+                }
                 for (const listener of this.detectionListeners) {
                     listener.codeDetected(code, result.codeResult.format);
                 }
@@ -203,7 +210,7 @@ export class QuaggaInstance {
     }
 
     stopLiveDetection() {
-        if(this.currentlyDetecting) {
+        if (this.currentlyDetecting) {
             Quagga.stop();
             this.currentlyDetecting = false;
         }

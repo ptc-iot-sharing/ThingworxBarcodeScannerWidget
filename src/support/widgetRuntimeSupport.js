@@ -250,7 +250,7 @@ export function ThingworxRuntimeWidget(widget) {
     // and prevents using the class-based syntax
     Object.defineProperty(widget, 'prototype', { writable: false });
 
-    TW.Runtime.Widgets[widget.name] = widget;
+    TW.Runtime.Widgets[widget.name] = function() { return new widget };
 }
 
 /**
@@ -260,5 +260,5 @@ export function ThingworxRuntimeWidget(widget) {
 export function ThingworxComposerWidget(widget) {
     Object.defineProperty(widget, 'prototype', { writable: false });
 
-    TW.IDE.Widgets[widget.name] = widget;
+    TW.IDE.Widgets[widget.name] = function() { return new widget };
 }

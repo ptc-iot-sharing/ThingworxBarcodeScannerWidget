@@ -1,0 +1,21 @@
+.quagga-icon-barcode {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 28px;
+  font-size: 20px;
+  width: 40px;
+  flex: 0 0 auto;
+  background-image: url(../images/image.svg);
+}
+
+.quagga-barcode {
+  height: 20px;
+  flex: 1 1 auto;
+}
+
+.quagga-input-field {
+  display: flex;
+  align-items: center;
+  width: 260px;
+}

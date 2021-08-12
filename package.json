@@ -60,7 +60,7 @@
         "zip-webpack-plugin": "^4.0.1"
     },
     "dependencies": {
-        "@ericblade/quagga2": "^1.3.0",
+        "@ericblade/quagga2": "^1.4.1",
         "typescriptwebpacksupport": "^2.0.9"
     },
     "config": {

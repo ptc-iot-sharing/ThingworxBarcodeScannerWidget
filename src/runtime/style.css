@@ -1,12 +1,18 @@
-.quagga-icon-barcode {
+.quagga-icon-barcode, .quagga-file-capture-label {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
     height: 28px;
     font-size: 20px;
     width: 40px;
-    flex: 0 0 auto;
+    display: inline-block;
+    border: 1px solid #666;
     background-image: url(../images/image.svg);
+}
+
+.quagga-icon-barcode:hover, .quagga-file-capture-label:hover {
+    border-color: #3c7fb1;
+    background-color: #ccc;
 }
 
 .quagga-barcode {

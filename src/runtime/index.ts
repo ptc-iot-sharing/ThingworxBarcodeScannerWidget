@@ -15,6 +15,11 @@ import {
 } from './quaggaEngine/quaggaInteface';
 import './style.css';
 
+enum DetectionModes {
+    LIVE = 'Live',
+    IMAGE = 'Image',
+}
+
 /**
  * The `@TWWidgetDefinition` decorator marks a class as a Thingworx widget. It can only be applied to classes
  * that inherit from the `TWRuntimeWidget` class.
@@ -35,11 +40,19 @@ class QuaggaJsWidget extends TWRuntimeWidget {
      * @return      The HTML structure.
      */
     renderHtml(): string {
-        return `<div class="widget-content quagga-input-field">
+        if (this.getProperty('Mode') == DetectionModes.LIVE) {
+            return `<div class="widget-content quagga-input-field">
             <input class="quagga-barcode" type="text">
-            <button type="button" class="quagga-icon-barcode">&nbsp;</button>
-            <input type="file" class="quagga-file-capture" capture="">
+            <button type="button" class="quagga-icon-barcode quagga-start-live">&nbsp;</button>
         </div>`;
+        } else {
+            return `<div class="widget-content quagga-input-field">
+            <input class="quagga-barcode" type="text">
+            <label class="quagga-file-capture-label">
+                <input type="file"  class="quagga-file-capture" capture="">
+            </label>
+        </div>`;
+        }
     }
 
     afterRender(): void {
@@ -57,19 +70,15 @@ class QuaggaJsWidget extends TWRuntimeWidget {
                 this.quaggaInstance.decodeSingleImage(URL.createObjectURL(target.files[0]));
             }
         });
-        this.jqElement.find('.quagga-icon-barcode').on('click', () => {
-            if (this.getProperty('Mode') == 'Live') {
-                this.createLiveStreamOverlay();
-            } else if (this.getProperty('Mode') == 'Image') {
-                this.jqElement.find('.quagga-file-capture').trigger('click');
-            }
+        this.jqElement.find('.quagga-start-live').on('click', () => {
+            this.createLiveStreamOverlay();
         });
     }
 
     @service StartDetection(): void {
-        if (this.getProperty('Mode') == 'Live') {
+        if (this.getProperty('Mode') == DetectionModes.LIVE) {
             this.createLiveStreamOverlay();
-        } else if (this.getProperty('Mode') == 'Image') {
+        } else if (this.getProperty('Mode') == DetectionModes.IMAGE) {
             this.jqElement.find('.quagga-file-capture').trigger('click');
         }
     }
